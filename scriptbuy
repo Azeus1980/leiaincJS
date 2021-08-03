@@ -1,4 +1,4 @@
-<script>
+
 $( ".shop__lume" ).removeClass( "active" );
 $( ".shop__lume" ).addClass( "inactive" );
 lumecase = "TRUE";
@@ -317,4 +317,3 @@ $( "#ADD_TO_CART" ).click(function() {
     });
   }
 })();
-</script>
