@@ -1,0 +1,320 @@
+<script>
+$( ".shop__lume" ).removeClass( "active" );
+$( ".shop__lume" ).addClass( "inactive" );
+lumecase = "TRUE";
+
+$( "#shop_champ" ).click(function() {
+	$( ".shop__lume" ).removeClass( "active" );
+	$( ".shop__lume" ).removeClass( "inactive" );
+	$( "#shop_champ" ).addClass( "active" );
+	$( "#shop_moon" ).addClass( "inactive" );
+	$( "#shop__step-country" ).show();
+	color = "champ";
+});
+
+$( "#shop_moon" ).click(function() {
+	$( ".shop__lume" ).removeClass( "active" );
+	$( ".shop__lume" ).removeClass( "inactive" );
+	$( "#shop_moon" ).addClass( "active" );
+	$( "#shop_champ" ).addClass( "inactive" );
+	$( "#shop__step-country" ).show();
+	color = "moon";
+});
+
+$( "#lumecase_on" ).click(function() {
+	$( "#lumecase_off" ).removeClass( "active" );
+	$( "#lumecase_on" ).addClass( "active" );
+  lumecase = "TRUE";
+});
+$( "#lumecase_off" ).click(function() {
+	$( "#lumecase_on" ).removeClass( "active" );
+	$( "#lumecase_off" ).addClass( "active" );
+  lumecase = "FALSE";
+});
+
+$( "#country_us" ).click(function() {
+	$( "#country_eu" ).removeClass( "active" );
+	$( "#country_jp" ).removeClass( "active" );
+	$( "#country_us" ).addClass( "active" );
+	$( "#shop__step-lumecase" ).show();
+  country = "US";
+});
+
+$( "#country_eu" ).click(function() {
+	$( "#country_us" ).removeClass( "active" );
+	$( "#country_jp" ).removeClass( "active" );
+	$( "#country_eu" ).addClass( "active" );
+	$( "#shop__step-lumecase" ).show();
+  country = "EU";
+});
+
+$( "#country_jp" ).click(function() {
+	$( "#country_eu" ).removeClass( "active" );
+	$( "#country_us" ).removeClass( "active" );
+	$( "#country_jp" ).addClass( "active" );
+	$( "#shop__step-lumecase" ).show();
+  country = "JP";
+});
+
+$( "#country_jp" ).click(function() {
+	$( "#country_eu" ).removeClass( "active" );
+	$( "#country_us" ).removeClass( "active" );
+	$( "#country_jp" ).addClass( "active" );
+  country = "JP";
+});
+
+$( "#ADD_TO_CART" ).click(function() {
+		console.log(color);
+    setTimeout(function() { 
+      if (color==="moon" && country==="US")
+        document.getElementById("btgrey-us").click(); 
+      else if (color==="moon" && (country==="EU" || country==="JP")) 
+        document.getElementById("btgrey-eu").click();
+      else if (color==="champ" && country==="US")
+        document.getElementById("btchamp-us").click();
+      else if (color==="champ" && (country==="EU" || country==="JP"))
+        document.getElementById("btchamp-eu").click();
+       //alert('produit');
+    }, 2000);
+		if (lumecase==="TRUE" && country==="US") 
+      setTimeout(function() { 
+        document.getElementById("btlumecase-us").click();	
+        //alert('luemacase');
+      }, 2000);
+		else if (lumecase==="TRUE" && (country==="EU" || country==="JP")) 
+      setTimeout(function() { 
+        document.getElementById("btlumecase-eu").click();	
+        //alert('luemacase');
+      }, 2000);
+  });
+
+(function () {
+  var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+  if (window.ShopifyBuy) {
+    if (window.ShopifyBuy.UI) {
+      ShopifyBuyInit();
+    } else {
+      loadScript();
+    }
+  } else {
+    loadScript();
+  }
+  function loadScript() {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = scriptURL;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+    script.onload = ShopifyBuyInit;
+	}
+  function ShopifyBuyInit() {
+    var client = ShopifyBuy.buildClient({
+      domain: 'shop.leiainc.com',
+      storefrontAccessToken: '21480003a3c1879326877776482809bc',
+    });
+    var idProductLumeCaseUs = '5697408827559';
+		//BOUTON LUMECASE HIDDEN
+    ShopifyBuy.UI.onReady(client).then(function (ui) {
+      //bt-lumecase
+			ui.createComponent('product', {
+        id: idProductLumeCaseUs,
+        node: document.getElementById('bt-lumecase-us'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+          "product": {
+            "DOMEvents": {
+              'click': function (evt, target) {
+                fbq('track', 'AddToCart');
+                //gtag_report_conversion();
+                rdt('track', 'AddToCart');
+              }
+            },
+          	"buttonDestination": "cart",
+            "styles": {
+              "button": {
+              },
+            },
+						"templates": {
+							"button": '<button id="btlumecase-us" class="{{data.classes.product.button}} {{data.buttonClass}}" style="display: none;" >'+
+								'{{data.buttonText}}</button>',
+						},
+						"iframe": false,
+            "contents": {
+              "img": false,
+              "title": false,
+              "price": false,
+              "options": false
+            },
+            "text": {
+              "button": "ADD TO CART"
+            }
+          },
+        },
+      });
+
+      //bt-lumecase-EUR
+      var idProductLumeCaseEUR = '6947367485607';
+			ui.createComponent('product', {
+        id: idProductLumeCaseEUR,
+        node: document.getElementById('bt-LumeCaseEUR'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+          "product": {
+            "DOMEvents": {
+              'click': function (evt, target) {
+                fbq('track', 'AddToCart');
+                //gtag_report_conversion();
+                rdt('track', 'AddToCart');
+              }
+            },
+          	"buttonDestination": "cart",
+						"templates": {
+							"button": '<button id="btlumecase-eu" class="{{data.classes.product.button}} {{data.buttonClass}}" style="display: none;" >'+
+								'{{data.buttonText}}</button>',
+						},
+						"iframe": false,
+            "contents": {
+              "img": false,
+              "title": false,
+              "price": false,
+              "options": false
+            },
+          },
+        },
+      });
+      
+      
+      //bt-lumepad-Chamapgne-EUR
+      var idProductLumePadChampagneEUR = '6947365519527';
+			ui.createComponent('product', {
+        id: idProductLumePadChampagneEUR,
+        node: document.getElementById('bt-lumepad-champagne-eu'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+          "product": {
+            "DOMEvents": {
+              'click': function (evt, target) {
+                fbq('track', 'AddToCart');
+                //gtag_report_conversion();
+                rdt('track', 'AddToCart');
+              }
+            },
+          	"buttonDestination": "cart",
+						"templates": {
+							"button": '<button id="btchamp-eu" class="{{data.classes.product.button}} {{data.buttonClass}}" style="display: none;" >'+
+								'{{data.buttonText}}</button>',
+						},
+						"iframe": false,
+            "contents": {
+              "img": false,
+              "title": false,
+              "price": false,
+              "options": false
+            },
+          },
+        },
+      });
+				
+      //bt-lumepad-MoonGray-EUR
+      var idProductLumePadMoonGrayEUR = '6947366600871';
+			ui.createComponent('product', {
+        id: idProductLumePadMoonGrayEUR,
+        node: document.getElementById('bt-lumepad-grey-eu'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+          "product": {
+            "DOMEvents": {
+              'click': function (evt, target) {
+                fbq('track', 'AddToCart');
+                //gtag_report_conversion();
+                rdt('track', 'AddToCart');
+              }
+            },
+          	"buttonDestination": "cart",
+						"templates": {
+							"button": '<button id="btgrey-eu" class="{{data.classes.product.button}} {{data.buttonClass}}" style="display: none;" >'+
+								'{{data.buttonText}}</button>',
+						},
+						"iframe": false,
+            "contents": {
+              "img": false,
+              "title": false,
+              "price": false,
+              "options": false
+            },
+          },
+        },
+      });
+
+      //bt-lumecase-champagne
+    	var idProductLumePadChampagneUs = '6695093960871';
+			ui.createComponent('product', {
+        id: idProductLumePadChampagneUs,
+        node: document.getElementById('bt-lumepad-champagne-us'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+          "product": {
+            "DOMEvents": {
+              'click': function (evt, target) {
+                fbq('track', 'AddToCart');
+                //gtag_report_conversion();
+                rdt('track', 'AddToCart');
+              }
+            },
+          	"buttonDestination": "cart",
+            "styles": {
+              "button": {
+              },
+            },
+						"templates": {
+							"button": '<button id="btchamp-us" class="{{data.classes.product.button}} {{data.buttonClass}}" style="display: none;" >'+
+								'{{data.buttonText}}</button>',
+						},
+						"iframe": false,
+            "contents": {
+              "img": false,
+              "title": false,
+              "price": false,
+              "options": false
+            },
+          },
+        },
+      });
+      
+      //bt-lumecase-grey
+    	var idProductLumePadGrayUs = '6695093403815';
+			ui.createComponent('product', {
+        id: idProductLumePadGrayUs,
+        node: document.getElementById('bt-lumepad-grey-us'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+          "product": {
+            "DOMEvents": {
+              'click': function (evt, target) {
+                fbq('track', 'AddToCart');
+                //gtag_report_conversion();
+                rdt('track', 'AddToCart');
+              }
+            },
+          	"buttonDestination": "cart",
+            "styles": {
+              "button": {
+              },
+            },
+						"templates": {
+							"button": '<button id="btgrey-us" class="{{data.classes.product.button}} {{data.buttonClass}}" style="display: none;" >'+
+								'{{data.buttonText}}</button>',
+						},
+						"iframe": false,
+            "contents": {
+              "img": false,
+              "title": false,
+              "price": false,
+              "options": false
+            },
+          },
+        },
+      });
+    });
+  }
+})();
+</script>
